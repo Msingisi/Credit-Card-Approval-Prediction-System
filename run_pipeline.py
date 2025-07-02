@@ -3,7 +3,7 @@ from steps.config import ModelNameConfig
 from zenml.client import Client
 
 def main():
-    data_path = "clean_data/cleaned_credit_data.csv"
+    data_path = "https://raw.githubusercontent.com/Msingisi/Credit-Card-Approval-Prediction-System/refs/heads/main/clean_data/cleaned_credit_data.csv"
     all_models = ["LogisticRegression", "RandomForest", "GradientBoosting", "XGBoost", "MLP"]
 
     print(f"MLflow Tracking URI: {Client().active_stack.experiment_tracker.get_tracking_uri()}")
