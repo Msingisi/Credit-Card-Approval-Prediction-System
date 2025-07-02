@@ -1,8 +1,12 @@
+import os
 import streamlit as st
 import requests
 import pandas as pd
 import numpy as np
 from streamlit_lottie import st_lottie_spinner
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # --- Page Config ---
 st.set_page_config(page_title="Credit Risk Predictor", layout="centered")
@@ -101,11 +105,14 @@ if submitted:
 
     df_input = df_input[['Income', 'Education level', 'Age', 'Employment length', 'Family member count'] + expected_columns]
 
+    # --- Load prediction endpoint from environment variable ---
+    
+    model_url = os.getenv("MLFLOW_MODEL_URL", "http://127.0.0.1:5005/invocations")
+
     # --- Predict ---
     try:
         with st_lottie_spinner(lottie_spinner, height=180):
-            response = requests.post(
-                url="http://127.0.0.1:5005/invocations",
+            response = requests.post(url=model_url,
                 headers={"Content-Type": "application/json"},
                 json={"dataframe_records": df_input.to_dict(orient="records")}
             )
